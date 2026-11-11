@@ -1,0 +1,35 @@
+name: Informe semanal
+
+on:
+  schedule:
+    # Lunes a las 8:00 (hora de Madrid en invierno)
+    - cron: "0 7 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  informe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r bot/requirements.txt
+      - name: Generar informe
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+        run: python -m bot.metricas --dias 7
+      - name: Guardar informe
+        run: |
+          git config user.name "licitatic-bot"
+          git config user.email "licitatic-bot@users.noreply.github.com"
+          git add informes
+          git commit -m "Informe semanal $(date +%F)" || exit 0
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push
