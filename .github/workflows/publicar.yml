@@ -1,0 +1,56 @@
+name: Publicar en redes
+
+on:
+  schedule:
+    # Cada 15 minutos (GitHub puede retrasarlo unos minutos en horas punta)
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r bot/requirements.txt
+
+      - name: Publicar lo que toca
+        env:
+          # Interruptor general: pon la variable PUBLICAR = si en Settings > Variables cuando quieras publicar de verdad
+          PUBLICAR: ${{ vars.PUBLICAR }}
+          REDES: ${{ vars.REDES }}
+          TIKTOK_PRIVACIDAD: ${{ vars.TIKTOK_PRIVACIDAD }}
+          BASE_URL_MEDIOS: ${{ vars.BASE_URL_MEDIOS }}
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
+          LINKEDIN_AUTHOR: ${{ secrets.LINKEDIN_AUTHOR }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+        run: python -m bot.main publicar
+
+      - name: Guardar registro de lo publicado
+        if: always()
+        run: |
+          if [[ -n "$(git status --porcelain bot/estado)" ]]; then
+            git config user.name "licitatic-bot"
+            git config user.email "licitatic-bot@users.noreply.github.com"
+            git add bot/estado
+            git commit -m "Registro de publicaciones $(date -u +%FT%RZ)"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
