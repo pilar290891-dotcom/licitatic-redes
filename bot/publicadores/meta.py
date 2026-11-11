@@ -15,7 +15,7 @@ import requests
 
 from .comun import ErrorPublicacion, url_publica
 
-VERSION = "v21.0"
+VERSION = os.environ.get("META_API_VERSION", "v27.0")
 GRAPH = f"https://graph.facebook.com/{VERSION}"
 RUPLOAD = f"https://rupload.facebook.com/ig-api-upload/{VERSION}"
 
