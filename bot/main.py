@@ -74,7 +74,7 @@ def listar(dias: int):
         if ahora - timedelta(hours=12) <= p.cuando <= hasta:
             marca = "✓" if estado.get(p.id, {}).get("ok") else " "
             aviso = f"  ⚠ {', '.join(p.avisos)}" if p.avisos else ""
-            print(f"[{marca}] {p.resumen()}{aviso}")
+            print(f"[{marca}] {p.id:40} {p.resumen()}{aviso}")
 
 
 def publicar():
@@ -123,16 +123,68 @@ def publicar():
     return 1 if fallos else 0
 
 
+def comprobar():
+    """Comprueba las claves de cada red sin publicar nada."""
+    import requests
+    activas = redes_activas()
+    print(f"Redes con claves: {', '.join(sorted(activas)) or 'ninguna'}")
+    ok = True
+    if {"instagram", "facebook"} & activas:
+        from .publicadores.meta import GRAPH
+        tok = os.environ["META_TOKEN"]
+        for nombre, obj, campos in (("Facebook", os.environ.get("META_PAGE_ID"), "name"),
+                                    ("Instagram", os.environ.get("META_IG_USER_ID"), "username")):
+            if not obj:
+                continue
+            r = requests.get(f"{GRAPH}/{obj}", params={"fields": campos, "access_token": tok}, timeout=30)
+            d = r.json()
+            if "error" in d:
+                ok = False
+                print(f"❌ {nombre}: {d['error'].get('message')}")
+            else:
+                print(f"✅ {nombre}: conectado como «{d.get(campos)}»")
+        r = requests.get(f"{GRAPH}/debug_token", params={"input_token": tok, "access_token": tok}, timeout=30)
+        info = r.json().get("data", {})
+        if info:
+            caduca = info.get("expires_at", 0)
+            print(f"   Token: {'no caduca' if not caduca else 'caduca ' + datetime.fromtimestamp(caduca, ZONA).isoformat()}"
+                  f" · permisos: {', '.join(info.get('scopes', []))}")
+    return 0 if ok else 1
+
+
+def publicar_una(id_pub: str):
+    """Publica de verdad una sola pieza del calendario, a cualquier hora (para pruebas)."""
+    pub = next((p for p in construir_calendario(RAIZ) if p.id == id_pub), None)
+    if not pub:
+        print(f"No encuentro la publicación {id_pub}. Usa «listar» para ver los ids.")
+        return 1
+    print(f"Publicando: {pub.resumen()}")
+    resultado = publicador(pub.red)(pub)
+    estado = cargar_estado()
+    estado[pub.id] = {"ok": True, "id_red": str(resultado), "intentos": 1,
+                      "publicado": datetime.now(ZONA).isoformat(), "prueba": True}
+    guardar_estado(estado)
+    print(f"✅ Publicado. Id en la red: {resultado}")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Bot de publicación de LicitaTIC")
     sub = ap.add_subparsers(dest="orden", required=True)
     l = sub.add_parser("listar")
     l.add_argument("--dias", type=int, default=7)
     sub.add_parser("publicar")
+    sub.add_parser("comprobar")
+    u = sub.add_parser("publicar-una")
+    u.add_argument("id")
     args = ap.parse_args(argv)
     if args.orden == "listar":
         listar(args.dias)
         return 0
+    if args.orden == "comprobar":
+        return comprobar()
+    if args.orden == "publicar-una":
+        return publicar_una(args.id)
     return publicar()
 
 

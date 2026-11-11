@@ -1,0 +1,59 @@
+name: Probar conexión
+
+on:
+  workflow_dispatch:
+    inputs:
+      accion:
+        description: "Qué hacer"
+        type: choice
+        options: [comprobar, listar, publicar-una]
+        default: comprobar
+      id:
+        description: "Solo para publicar-una: id de la publicación (sale en «listar»)"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r bot/requirements.txt
+      - name: Ejecutar
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          META_PAGE_ID: ${{ secrets.META_PAGE_ID }}
+          META_IG_USER_ID: ${{ secrets.META_IG_USER_ID }}
+          LINKEDIN_TOKEN: ${{ secrets.LINKEDIN_TOKEN }}
+          LINKEDIN_AUTHOR: ${{ secrets.LINKEDIN_AUTHOR }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_PRIVACIDAD: ${{ vars.TIKTOK_PRIVACIDAD }}
+          ACCION: ${{ inputs.accion }}
+          ID_PUB: ${{ inputs.id }}
+        run: |
+          if [ "$ACCION" = "publicar-una" ]; then
+            python -m bot.main publicar-una "$ID_PUB"
+          elif [ "$ACCION" = "listar" ]; then
+            python -m bot.main listar --dias 7
+          else
+            python -m bot.main comprobar
+          fi
+      - name: Guardar registro
+        if: always() && inputs.accion == 'publicar-una'
+        run: |
+          if [[ -n "$(git status --porcelain bot/estado)" ]]; then
+            git config user.name "licitatic-bot"
+            git config user.email "licitatic-bot@users.noreply.github.com"
+            git add bot/estado
+            git commit -m "Registro de prueba"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push
+          fi
