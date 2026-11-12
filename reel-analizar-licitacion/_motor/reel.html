@@ -40,7 +40,8 @@ mark{background:linear-gradient(rgba(255,221,38,.92),rgba(255,221,38,.92)) no-re
 #hook{position:absolute;left:60px;right:60px;top:170px;text-align:center}
 #hook .l{font-weight:800;font-size:96px;line-height:1.12;letter-spacing:-.01em;text-shadow:0 6px 30px rgba(3,33,79,.8)}
 .blk{background:#0CA8AC;color:#fff;padding:0 18px;border-radius:12px;display:inline-block;line-height:1.08}
-#hook .serif{font-family:S;font-style:italic;color:#0CA8AC;font-size:96px;line-height:1;margin-top:0;text-shadow:0 4px 24px rgba(3,33,79,.95)}
+#hook .serif{font-family:S;font-style:italic;font-size:104px;line-height:1;margin-top:8px}
+#tdm{display:inline-block;color:#03214F;padding:2px 30px 10px;border-radius:14px;transform:rotate(-2deg);background:linear-gradient(#FFE500,#FFE500) no-repeat 0 0/0% 100%;box-shadow:0 8px 30px rgba(0,0,0,.25)}
 /* header */
 #hdr{position:absolute;left:0;right:0;top:200px;display:flex;flex-direction:column;align-items:center}
 #hdr .pill{background:rgba(3,33,79,.92);border:2px solid rgba(12,168,172,.7);border-radius:60px;padding:16px 36px;font-weight:600;font-size:27px;letter-spacing:.24em;color:#fff;box-shadow:0 0 34px rgba(12,168,172,.35)}
@@ -105,7 +106,7 @@ mark{background:linear-gradient(rgba(255,221,38,.92),rgba(255,221,38,.92)) no-re
   <div id="hook">
     <div class="l">NO LEAS EL</div>
     <div class="l">PLIEGO <span class="blk" id="hk">ENTERO</span></div>
-    <div class="serif" id="todavia">…todavía.</div>
+    <div class="serif" id="todavia"><span id="tdm">…todavía.</span></div>
   </div>
 
   <div id="hdr"><div class="pill" id="hdrtxt">PLIEGO <b>ADMINISTRATIVO</b></div><div id="segs"></div></div>
@@ -218,7 +219,7 @@ window.render=function(t){
   // hook
   const hk=$('hook');const hOut=clamp((t-5.55)/0.3);hk.style.opacity=1-hOut;hk.style.transform=`translateY(${-40*eio(hOut)}px)`;
   $('hk').style.transform=`scale(${1+0.12*Math.sin(clamp(t/0.35)*Math.PI)})`;
-  const td=clamp((t-1.25)/0.3);$('todavia').style.opacity=td;$('todavia').style.transform=`translateY(${(1-eo(td))*30}px)`;
+  const td=clamp((t-1.25)/0.3);$('todavia').style.opacity=td;$('todavia').style.transform=`translateY(${(1-eo(td))*20}px)`;$('tdm').style.backgroundSize=`${eio(clamp((t-1.25)/0.3))*100}% 100%`;
   // header
   const hIn=clamp((t-5.75)/0.35),hOutV=clamp((t-TL.VERDICT)/0.3);
   $('hdr').style.opacity=hIn*(1-hOutV);$('hdr').style.transform=`translateY(${(1-eo(hIn))*-30}px)`;
