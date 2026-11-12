@@ -22,7 +22,9 @@ body{font-family:M;color:#fff;position:relative}
 .doc{position:absolute;left:0;right:0;top:0}
 .rp{width:900px;height:1273px;margin:22px auto 0;position:relative;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.35)}
 .rp img{position:absolute;inset:0;width:100%;height:100%}
-.hlr{position:absolute;background:rgba(255,214,0,.62);mix-blend-mode:multiply;border-radius:3px}
+.dim{position:absolute;inset:0;background:rgba(3,33,79,.58);opacity:0}
+.hlr{position:absolute;isolation:isolate;border-radius:5px;background-repeat:no-repeat;background-size:900px 1273px;box-shadow:0 0 14px rgba(255,229,0,.55)}
+.hlr::before{content:'';position:absolute;inset:0;background:#FFE500;mix-blend-mode:multiply;border-radius:5px}
 .page{width:820px;margin:22px auto 0;background:#fff;color:#1e1e1e;padding:52px 62px 60px;font-family:Carlito,'Liberation Sans',sans-serif;font-size:25px;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.35);min-height:1100px;position:relative}
 .page .fic{position:absolute;right:30px;top:18px;font:600 12px M;letter-spacing:.12em;color:#b0b6bd}
 .page h1{font-size:30px;line-height:1.25;text-align:center;font-weight:700;margin:6px 0 10px}
@@ -155,7 +157,7 @@ const KP=900/HL.pw;
 const pagesHTML=(pre,n,ph)=>Array.from({length:n},(_,i)=>`<div class="rp"><img src="pdf/${pre}-${ph(i+1)}.jpg"></div>`).join('');
 $('docA').innerHTML=pagesHTML('A',HL.nA,i=>String(i).padStart(2,'0'));
 $('docB').innerHTML=pagesHTML('B',HL.nB,i=>String(i));
-HL.items.forEach((it,i)=>{const doc=$(i<5?'docA':'docB');it.forEach(g=>{const pg=doc.children[g.page];g.rects.forEach(r=>{const d=document.createElement('div');d.className='hlr';d.dataset.i=i;d.dataset.w=((r[2]-r[0])*KP+8).toFixed(1);d.style.left=(r[0]*KP-4)+'px';d.style.top=(r[1]*KP-3)+'px';d.style.height=((r[3]-r[1])*KP+6)+'px';d.style.width='0px';pg.appendChild(d)})})});
+HL.items.forEach((it,i)=>{const doc=$(i<5?'docA':'docB');it.forEach(g=>{const pg=doc.children[g.page];if(!pg.querySelector('.dim')){const dm=document.createElement('div');dm.className='dim';pg.appendChild(dm)}g.rects.forEach(r=>{const d=document.createElement('div');d.className='hlr';d.dataset.i=i;d.dataset.w=((r[2]-r[0])*KP+8).toFixed(1);d.style.left=(r[0]*KP-4)+'px';d.style.top=(r[1]*KP-5)+'px';d.style.height=((r[3]-r[1])*KP+10)+'px';d.style.width='0px';d.style.backgroundImage=`url(${pg.querySelector('img').getAttribute('src')})`;d.style.backgroundPosition=`${-(r[0]*KP-4)}px ${-(r[1]*KP-5)}px`;pg.appendChild(d)})})});
 const PH=1273+22;
 $('segs').innerHTML=Array.from({length:8},()=>'<div><span></span></div>').join('');
 const CHK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
@@ -210,6 +212,7 @@ window.render=function(t){
   $('pgno').textContent=`Pág. ${page} / ${useB?HL.nB:HL.nA}`;
   // marks
   if(!marks)marks=[...document.querySelectorAll('.hlr')];
+  {let dv=0;for(let i=0;i<8;i++){const u=t-its[i];if(u>0&&u<4)dv=Math.max(dv,clamp((u-0.45)/0.4)*clamp((3.95-u)/0.3))}document.querySelectorAll('.dim').forEach(e=>e.style.opacity=dv)}
   for(let i=0;i<8;i++){const ms=marks.filter(m=>m.dataset.i==i);const T=its[i];const L=ms.map(m=>+m.dataset.w),tot=L.reduce((a,b)=>a+b,0);let acc=0;
     ms.forEach((m,k)=>{const a=0.42+0.85*acc/tot,b=0.42+0.85*(acc+L[k])/tot;acc+=L[k];const p=clamp((t-T-a)/(b-a));m.style.width=(p*m.dataset.w)+'px'})}
   // hook
