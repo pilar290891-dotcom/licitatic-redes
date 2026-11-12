@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:M;font-weight:400;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-400-normal.woff2)}
+@font-face{font-family:M;font-weight:600;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-600-normal.woff2)}
+@font-face{font-family:M;font-weight:800;src:url(node_modules/@fontsource/montserrat/files/montserrat-latin-800-normal.woff2)}
+@font-face{font-family:S;font-style:italic;src:url(node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2)}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#03214F}
+body{font-family:M;color:#fff;position:relative}
+#stage{position:absolute;inset:0;overflow:hidden;background:#b98d5c}
+#world{position:absolute;left:0;top:0;width:848px;height:1264px;transform-origin:0 0}
+#world>img{position:absolute;left:0;top:0;width:848px;height:1264px}
+#screen{position:absolute;left:0;top:0;width:1000px;height:625px;transform-origin:0 0;overflow:hidden;background:#1d2229}
+#glare{position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,0) 70%,rgba(255,255,255,.04) 100%);pointer-events:none}
+.tb{position:absolute;left:0;right:0;top:0;height:46px;background:#262b33;display:flex;align-items:flex-end;padding:0 14px;gap:6px;border-bottom:1px solid #111}
+.tab{height:36px;padding:0 18px;display:flex;align-items:center;gap:10px;font:600 15px M;color:#9aa3ae;background:#2f353e;border-radius:9px 9px 0 0}
+.tab.on{background:#3b424c;color:#fff}
+.tab i{width:16px;height:19px;border-radius:2px;background:#e2504c;display:inline-block;font:800 7px M;color:#fff;font-style:normal;text-align:center;line-height:19px}
+.pg{position:absolute;right:16px;top:12px;font:600 15px M;color:#c9d1da;background:#1b1f25;padding:4px 12px;border-radius:6px}
+.vp{position:absolute;left:0;right:0;top:46px;bottom:0;background:#565b62;overflow:hidden}
+.doc{position:absolute;left:0;right:0;top:0}
+.page{width:820px;margin:22px auto 0;background:#fff;color:#1e1e1e;padding:52px 62px 60px;font-family:Carlito,'Liberation Sans',sans-serif;font-size:25px;line-height:1.5;box-shadow:0 4px 14px rgba(0,0,0,.35);min-height:1100px;position:relative}
+.page .fic{position:absolute;right:30px;top:18px;font:600 12px M;letter-spacing:.12em;color:#b0b6bd}
+.page h1{font-size:30px;line-height:1.25;text-align:center;font-weight:700;margin:6px 0 10px}
+.page .sub{text-align:center;font-size:22px;color:#444;margin-bottom:26px;line-height:1.35}
+.page h2{font-size:25px;font-weight:700;margin:22px 0 6px}
+.page p{margin:0 0 10px;text-align:justify}
+.page .filler{color:#555}
+mark{background:linear-gradient(rgba(255,221,38,.92),rgba(255,221,38,.92)) no-repeat 0 60%/0% 82%;color:inherit;padding:0 2px;border-radius:3px}
+.layer{position:absolute;inset:0;pointer-events:none}
+#vig{background:linear-gradient(180deg,rgba(3,33,79,.92) 0%,rgba(3,33,79,.55) 17%,rgba(3,33,79,0) 27%,rgba(3,33,79,0) 56%,rgba(3,33,79,.6) 66%,rgba(3,33,79,.95) 80%)}
+.dot{position:absolute;border-radius:50%;background:#0CA8AC;box-shadow:0 0 12px 3px rgba(12,168,172,.7)}
+/* hook */
+#hook{position:absolute;left:60px;right:60px;top:170px;text-align:center}
+#hook .l{font-weight:800;font-size:96px;line-height:1.12;letter-spacing:-.01em;text-shadow:0 6px 30px rgba(3,33,79,.8)}
+.blk{background:#0CA8AC;color:#fff;padding:0 18px;border-radius:12px;display:inline-block;line-height:1.08}
+#hook .serif{font-family:S;font-style:italic;color:#0CA8AC;font-size:96px;line-height:1;margin-top:0;text-shadow:0 4px 24px rgba(3,33,79,.95)}
+/* header */
+#hdr{position:absolute;left:0;right:0;top:200px;display:flex;flex-direction:column;align-items:center}
+#hdr .pill{background:rgba(3,33,79,.92);border:2px solid rgba(12,168,172,.7);border-radius:60px;padding:16px 36px;font-weight:600;font-size:27px;letter-spacing:.24em;color:#fff;box-shadow:0 0 34px rgba(12,168,172,.35)}
+#hdr .pill b{color:#0CA8AC;font-weight:800}
+#segs{display:flex;gap:10px;margin-top:20px}
+#segs div{width:84px;height:9px;border-radius:9px;background:rgba(255,255,255,.25);overflow:hidden}
+#segs div span{display:block;height:100%;width:0;background:#0CA8AC;box-shadow:0 0 10px #0CA8AC}
+/* caption */
+#cap{position:absolute;left:60px;right:60px;top:1175px;background:rgba(3,33,79,.95);border:2px solid rgba(12,168,172,.6);border-radius:32px;padding:34px 42px 40px;box-shadow:0 20px 60px rgba(0,0,0,.35),0 0 40px rgba(12,168,172,.25);transform-origin:50% 0}
+#cap .lab{display:flex;align-items:center;gap:22px;font-weight:600;font-size:29px;letter-spacing:.14em;color:#0CA8AC;text-transform:uppercase}
+#cap .n{flex:none;width:74px;height:74px;border-radius:50%;background:#fff;color:#08777A;font-weight:800;font-size:32px;letter-spacing:0;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 8px rgba(12,168,172,.25),0 0 26px rgba(12,168,172,.6)}
+#cap .q{font-weight:800;font-size:58px;line-height:1.14;margin-top:22px}
+/* verdict */
+#ver{position:absolute;left:56px;right:56px;top:330px;height:1170px;background:rgba(3,33,79,.97);border:2px solid rgba(12,168,172,.6);border-radius:38px;padding:56px 56px;box-shadow:0 30px 80px rgba(0,0,0,.45),0 0 60px rgba(12,168,172,.3);overflow:hidden}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:54px 54px}
+#ver .k{position:relative;font-weight:600;font-size:27px;letter-spacing:.26em;color:#0CA8AC}
+#ver .t{position:relative;max-width:640px;font-weight:800;font-size:70px;line-height:1.1;margin-top:20px}
+#rows{position:relative;margin-top:44px;display:grid;grid-template-columns:1fr;gap:16px}
+.row{display:flex;align-items:center;gap:24px;font-weight:600;font-size:34px}
+.row .c{flex:none;width:52px;height:52px;border-radius:50%;border:3px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center}
+.row .c svg{width:30px;height:30px;stroke:#fff;stroke-width:3.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.row.on .c{background:#0CA8AC;border-color:#0CA8AC;box-shadow:0 0 18px rgba(12,168,172,.8)}
+#stamp{position:absolute;right:50px;top:190px;font-weight:800;font-size:104px;line-height:1;color:#0CA8AC;border:10px solid #0CA8AC;border-radius:28px;padding:14px 36px 18px;transform:rotate(-10deg);background:rgba(3,33,79,.7);box-shadow:0 0 50px rgba(12,168,172,.6)}
+#vfoot{position:absolute;left:56px;right:56px;bottom:52px}
+#vfoot .a{font-weight:800;font-size:48px}
+#vfoot .a span{color:#0CA8AC}
+#vfoot .s{font-family:S;font-style:italic;color:#0CA8AC;font-size:60px;line-height:1.08;margin-top:12px}
+/* cta */
+#cta{position:absolute;inset:0;background:radial-gradient(900px 700px at 100% 0%,rgba(12,168,172,.28),transparent 60%),radial-gradient(800px 700px at 0% 100%,rgba(8,119,122,.38),transparent 60%),#03214F}
+#cta .in{position:absolute;left:90px;right:90px;top:300px}
+#cta img.logo{height:104px}
+#cta .k{font-weight:600;font-size:30px;letter-spacing:.28em;color:#0CA8AC;margin-top:110px}
+#cta .h{font-weight:800;font-size:88px;line-height:1.14;margin-top:26px}
+#cta .p{font-size:42px;line-height:1.38;margin-top:34px;color:#DCE6F2}
+#cta .p b{color:#0CA8AC;font-weight:800}
+#cta .serif{font-family:S;font-style:italic;color:#0CA8AC;font-size:76px;line-height:1.05;margin-top:40px}
+#cta .pill{display:inline-flex;align-items:center;gap:16px;margin-top:54px;font-weight:600;font-size:32px;border:2.5px solid #0CA8AC;border-radius:60px;padding:18px 34px;background:rgba(12,168,172,.12)}
+#cta .pill svg{width:34px;height:34px;stroke:#0CA8AC;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#cta .web{position:absolute;left:90px;bottom:300px;font-weight:600;font-size:34px;color:#fff;letter-spacing:.04em}
+#wipe{position:absolute;left:0;top:0;bottom:0;width:0;background:#0CA8AC}
+#flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style></head><body>
+<div id="stage">
+  <div id="world"><img src="laptop2x.jpg">
+    <div id="screen">
+      <div class="tb">
+        <div class="tab on" id="tabA"><i>PDF</i>Pliego_administrativo_PCAP.pdf</div>
+        <div class="tab" id="tabB"><i>PDF</i>Pliego_tecnico_PPT.pdf</div>
+      </div>
+      <div class="pg" id="pgno">Pág. 1 / 86</div>
+      <div class="vp">
+        <div class="doc" id="docA">
+          <div class="page"><span class="fic">EJEMPLO FICTICIO</span>
+            <h1>PLIEGO DE CLÁUSULAS ADMINISTRATIVAS PARTICULARES</h1>
+            <div class="sub">Contrato de servicios de mantenimiento y soporte de aplicaciones informáticas · Procedimiento abierto · Expediente 2026/000</div>
+            <h2>1. Objeto del contrato</h2>
+            <p id="c0">Constituye el objeto del contrato <mark data-i="0">la prestación del servicio de mantenimiento correctivo y evolutivo, y el soporte de las aplicaciones de gestión municipal.</mark> <mark data-i="0">CPV 72267000-4: Servicios de mantenimiento y reparación de software.</mark> El contrato no se divide en lotes.</p>
+            <p class="filler">La prestación se ajustará a lo dispuesto en el presente pliego y en el pliego de prescripciones técnicas, que tienen carácter contractual.</p>
+            <h2>2. Presupuesto base de licitación y duración</h2>
+            <p id="c1"><mark data-i="1">El presupuesto base de licitación asciende a 180.000 € (IVA excluido)</mark>, 217.800 € con IVA. <mark data-i="1">La duración del contrato será de 24 meses</mark>, con una posible prórroga de 12 meses. Valor estimado: 270.000 €.</p>
+            <p class="filler">El precio del contrato incluye todos los gastos necesarios para su correcta ejecución, así como los tributos de cualquier índole.</p>
+          </div>
+          <div class="page"><span class="fic">EJEMPLO FICTICIO</span>
+            <h2>3. Presentación de las proposiciones</h2>
+            <p id="c2">Las proposiciones se presentarán de forma electrónica a través de la Plataforma de Contratación del Sector Público <mark data-i="2">hasta las 23:59 horas del 1 de diciembre de 2026.</mark> No se admitirán ofertas fuera de plazo.</p>
+            <p class="filler">Cada licitador no podrá presentar más de una proposición. La presentación supone la aceptación incondicionada de las cláusulas de este pliego.</p>
+            <h2>4. Solvencia económica y técnica</h2>
+            <p id="c3">Económica: <mark data-i="3">volumen anual de negocios, en el mejor de los tres últimos ejercicios, igual o superior a 135.000 €.</mark> Técnica: <mark data-i="3">servicios de igual o similar naturaleza en los últimos tres años, por importe anual acumulado igual o superior a 63.000 €</mark> en el año de mayor ejecución.</p>
+            <p class="filler">La solvencia se acreditará por los medios indicados en el anexo correspondiente, previo requerimiento al licitador propuesto como adjudicatario.</p>
+          </div>
+          <div class="page"><span class="fic">EJEMPLO FICTICIO</span>
+            <h2>5. Criterios de adjudicación</h2>
+            <p id="c4">La adjudicación se realizará atendiendo a una pluralidad de criterios: <mark data-i="4">oferta económica, hasta 55 puntos (fórmula)</mark> y <mark data-i="4">memoria técnica, hasta 45 puntos (juicio de valor).</mark></p>
+            <p class="filler">La documentación relativa a los criterios sujetos a juicio de valor se presentará en sobre independiente de la oferta económica.</p>
+            <p class="filler">Las ofertas que se encuentren en presunción de anormalidad se tramitarán conforme al procedimiento previsto en la normativa de contratos.</p>
+          </div>
+          <div id="fillers"></div>
+        </div>
+        <div class="doc" id="docB" style="display:none">
+          <div class="page"><span class="fic">EJEMPLO FICTICIO</span>
+            <h1>PLIEGO DE PRESCRIPCIONES TÉCNICAS</h1>
+            <div class="sub">Servicio de mantenimiento y soporte de aplicaciones informáticas · Expediente 2026/000</div>
+            <h2>3. Requisitos técnicos mínimos</h2>
+            <p id="c5"><mark data-i="5">La empresa adjudicataria deberá contar con la certificación de conformidad con el Esquema Nacional de Seguridad, categoría MEDIA.</mark> <mark data-i="5">Las ofertas que no cumplan los requisitos mínimos serán excluidas.</mark></p>
+            <p class="filler">Los servicios se prestarán sobre las aplicaciones y versiones indicadas en el inventario del anexo I.</p>
+            <h2>5. Equipo de trabajo mínimo</h2>
+            <p id="c6"><mark data-i="6">1 jefe de proyecto con al menos 5 años de experiencia</mark> y <mark data-i="6">2 analistas programadores con al menos 3 años de experiencia</mark> en las tecnologías del anexo I.</p>
+          </div>
+          <div class="page"><span class="fic">EJEMPLO FICTICIO</span>
+            <h2>7. Acuerdo de nivel de servicio (ANS)</h2>
+            <p id="c7"><mark data-i="7">Incidencias críticas: resolución en un máximo de 4 horas.</mark> <mark data-i="7">Penalización: 1 % del importe mensual por cada hora de retraso.</mark></p>
+            <p class="filler">El adjudicatario entregará un informe mensual con el grado de cumplimiento de los indicadores de servicio.</p>
+            <p class="filler">La entidad contratante podrá revisar los indicadores con carácter anual.</p>
+          </div>
+        </div>
+      </div>
+      <div id="glare"></div>
+    </div>
+  </div>
+  <div class="layer" id="vig"></div>
+  <div class="layer" id="dots"></div>
+
+  <div id="hook">
+    <div class="l">NO LEAS EL</div>
+    <div class="l">PLIEGO <span class="blk" id="hk">ENTERO</span></div>
+    <div class="serif" id="todavia">…todavía.</div>
+  </div>
+
+  <div id="hdr"><div class="pill" id="hdrtxt">PLIEGO <b>ADMINISTRATIVO</b></div><div id="segs"></div></div>
+
+  <div id="cap"><div class="lab"><div class="n" id="capn">1</div><span id="capl">OBJETO Y CPV</span></div><div class="q" id="capq">¿Es exactamente lo que hace tu empresa?</div></div>
+
+  <div id="ver"><div class="grid"></div>
+    <div class="k">CHECKLIST GO / NO-GO</div>
+    <div class="t">¿Has subrayado<br>las 8?</div>
+    <div id="rows"></div>
+    <div id="stamp">GO</div>
+    <div id="vfoot"><div class="a">¿Encaja todo? <span>GO.</span></div><div class="s">¿Falla algo clave? NO-GO,<br>y a por la siguiente.</div></div>
+  </div>
+
+  <div id="cta"><div class="grid"></div><div class="layer" id="dots2"></div>
+    <div class="in">
+      <img class="logo" src="logo-blanco.png">
+      <div class="k" id="ck">¿TE AYUDAMOS?</div>
+      <div class="h" id="ch">Analizamos el pliego <span class="blk">contigo</span></div>
+      <div class="p" id="cp">Y te damos una recomendación <b style="white-space:nowrap">GO / NO-GO</b> antes de preparar la oferta.</div>
+      <div class="serif" id="cs">Tú decides a cuáles presentarte.</div>
+      <div class="pill" id="cpill"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Guárdalo para tu próximo pliego</div>
+    </div>
+    <div class="web" id="cweb">www.licitatic.es</div>
+  </div>
+  <div id="wipe"></div>
+  <div id="flash"></div>
+</div>
+<script>
+const TL={"ITEMS":[6,10,14,18,22,28,32,36],"SWITCH":26,"VERDICT":40,"STAMP":42,"CTA":47,"END":54};
+const ITEMS=[
+ ['Objeto y CPV','¿Es exactamente lo que hace tu empresa?'],
+ ['Presupuesto y duración','¿Te salen los números?'],
+ ['Plazo de presentación','¿Te da tiempo a prepararla bien?'],
+ ['Solvencia','¿La cumples hoy y puedes acreditarla?'],
+ ['Criterios de adjudicación','¿Dónde se ganan los puntos?'],
+ ['Requisitos mínimos','Si no los cumples, quedas fuera.'],
+ ['Equipo mínimo','¿Tienes a esas personas?'],
+ ['ANS y penalizaciones','¿Puedes cumplirlos sin perder dinero?']];
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const eo=x=>{x=clamp(x);return 1-Math.pow(1-x,3)};
+const back=x=>{x=clamp(x);const c=1.6;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+const lerp=(a,b,u)=>a+(b-a)*u;
+// fillers
+const FT='De conformidad con lo dispuesto en la Ley 9/2017, de 8 de noviembre, de Contratos del Sector Público, el presente contrato tiene carácter administrativo y se regirá por lo establecido en este pliego. Para lo no previsto, serán de aplicación las normas de derecho administrativo y, en su defecto, las de derecho privado. ';
+let fh='';for(let i=0;i<9;i++){fh+=`<div class="page"><span class="fic">EJEMPLO FICTICIO</span><h2>${6+i}. Disposiciones generales</h2><p class="filler">${FT.repeat(3)}</p><p class="filler">${FT.repeat(3)}</p></div>`}
+$('fillers').innerHTML=fh;
+$('segs').innerHTML=Array.from({length:8},()=>'<div><span></span></div>').join('');
+const CHK='<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+$('rows').innerHTML=ITEMS.map(([l])=>`<div class="row"><div class="c">${CHK}</div>${l}</div>`).join('');
+// particles
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const P=Array.from({length:26},()=>({x:rnd()*1080,y:rnd()*1920,s:3+rnd()*6,v:12+rnd()*30,o:.25+rnd()*.6,ph:rnd()*6}));
+$('dots').innerHTML=P.map(()=>'<div class="dot"></div>').join('');
+$('dots2').innerHTML=P.map(()=>'<div class="dot"></div>').join('');
+// homography rect(1000x625) -> quad
+function solve(A,b){const n=b.length;for(let i=0;i<n;i++){let m=i;for(let r=i+1;r<n;r++)if(Math.abs(A[r][i])>Math.abs(A[m][i]))m=r;[A[i],A[m]]=[A[m],A[i]];[b[i],b[m]]=[b[m],b[i]];for(let r=i+1;r<n;r++){const f=A[r][i]/A[i][i];for(let c=i;c<n;c++)A[r][c]-=f*A[i][c];b[r]-=f*b[i]}}const x=Array(n).fill(0);for(let i=n-1;i>=0;i--){let s=b[i];for(let c=i+1;c<n;c++)s-=A[i][c]*x[c];x[i]=s/A[i][i]}return x}
+function homog(w,h,q){const src=[[0,0],[w,0],[w,h],[0,h]];const A=[],b=[];for(let i=0;i<4;i++){const[x,y]=src[i],[X,Y]=q[i];A.push([x,y,1,0,0,0,-x*X,-y*X]);b.push(X);A.push([0,0,0,x,y,1,-x*Y,-y*Y]);b.push(Y)}const[a,bb,c,d,e,f,g,hh]=solve(A,b);return `matrix3d(${a},${d},0,${g},${bb},${e},0,${hh},0,0,1,0,${c},${f},0,1)`}
+$('screen').style.transform=homog(1000,625,[[167.5,306.5],[707.5,306.5],[691.5,636.5],[183.5,636.5]]);
+const SC=[437.5,471.5];
+// camera keys
+const K=[[0,1.66],[0.45,1.84],[5.6,1.97],[6.0,1.97]];
+TL.ITEMS.forEach(T=>{K.push([T+0.3,2.0],[T+1.1,2.26],[T+3.85,2.31])});
+K.push([26.5,1.86],[27.8,1.95]);K.push([40.7,1.5],[46.9,1.56]);
+K.sort((a,b)=>a[0]-b[0]);
+function camS(t){if(t<=K[0][0])return K[0][1];for(let i=1;i<K.length;i++){if(t<=K[i][0]){const[a,s0]=K[i-1],[b,s1]=K[i];return lerp(s0,s1,eio((t-a)/(b-a)))}}return K[K.length-1][1]}
+function camY(t){if(t<6)return lerp(885,760,eio((t-5.3)/0.7));return t<TL.VERDICT?760:lerp(760,850,eio((t-TL.VERDICT)/0.8))}
+// doc scroll targets
+const vpH=579;
+function target(i){const el=$('c'+i);const pg=el.offsetParent===null?0:0;let y=0,n=el;while(n&&!n.classList.contains('doc')){y+=n.offsetTop;n=n.offsetParent}return Math.max(0,y+el.offsetHeight/2-vpH/2+8)}
+let TG=null;
+const marks=[...document.querySelectorAll('mark')];
+function setCap(i){$('capn').textContent=i+1;$('capl').textContent=ITEMS[i][0];$('capq').textContent=ITEMS[i][1]}
+window.render=function(t){
+  if(!TG)TG=ITEMS.map((_,i)=>{const d=i<5?$('docA'):$('docB');const o=d.style.display;d.style.display='block';const v=target(i);d.style.display=o;return v});
+  // camera
+  const s=camS(t),cy=camY(t);
+  $('world').style.transform=`translate(${540-SC[0]*s}px,${cy-SC[1]*s}px) scale(${s})`;
+  // doc
+  const useB=t>=TL.SWITCH+0.55&&t<TL.VERDICT+10;
+  $('docA').style.display=useB?'none':'block';$('docB').style.display=useB?'block':'none';
+  $('tabA').className='tab'+(useB?'':' on');$('tabB').className='tab'+(useB?' on':'');
+  let scroll=0,page=1;
+  const its=TL.ITEMS;
+  if(t<its[0]){ // hook fast scroll
+    const u=clamp(t/2.1);scroll=Math.pow(u,1.6)*11800;
+    if(t>2.1)scroll=lerp(11800,0,eio((t-2.1)/0.7));
+    page=Math.max(1,Math.round(scroll/11800*85)+1);
+  } else {
+    let cur=0;for(let i=0;i<8;i++)if(t>=its[i])cur=i;
+    if(t>=TL.SWITCH&&t<its[5]){cur=-1}
+    if(cur>=0){const T=its[cur];const prev=(cur===0||cur===5)?0:TG[cur-1];scroll=lerp(prev,TG[cur],eio((t-T-0.05)/0.6));}
+    else scroll=lerp(TG[4],0,eio((t-TL.SWITCH)/0.5));
+    if(t>=TL.SWITCH+0.55&&cur<0)scroll=0;
+    page=useB?(cur>=7?6:2):Math.max(1,Math.floor(scroll/1150)+1)+ (cur>=2?1:0);
+  }
+  document.querySelectorAll('.doc').forEach(d=>d.style.transform=`translateY(${-scroll}px)`);
+  $('pgno').textContent=`Pág. ${page} / ${useB?34:86}`;
+  // marks
+  for(let i=0;i<8;i++){const ms=marks.filter(m=>m.dataset.i==i);const T=its[i];const L=ms.map(m=>m.textContent.length),tot=L.reduce((a,b)=>a+b,0);let acc=0;
+    ms.forEach((m,k)=>{const a=0.42+0.85*acc/tot,b=0.42+0.85*(acc+L[k])/tot;acc+=L[k];const p=clamp((t-T-a)/(b-a));m.style.backgroundSize=`${p*100}% 82%`})}
+  // hook
+  const hk=$('hook');const hOut=clamp((t-5.55)/0.3);hk.style.opacity=1-hOut;hk.style.transform=`translateY(${-40*eio(hOut)}px)`;
+  $('hk').style.transform=`scale(${1+0.12*Math.sin(clamp(t/0.35)*Math.PI)})`;
+  const td=clamp((t-1.25)/0.3);$('todavia').style.opacity=td;$('todavia').style.transform=`translateY(${(1-eo(td))*30}px)`;
+  // header
+  const hIn=clamp((t-5.75)/0.35),hOutV=clamp((t-TL.VERDICT)/0.3);
+  $('hdr').style.opacity=hIn*(1-hOutV);$('hdr').style.transform=`translateY(${(1-eo(hIn))*-30}px)`;
+  $('hdrtxt').innerHTML=t>=TL.SWITCH+0.3?'PLIEGO <b>TÉCNICO</b>':'PLIEGO <b>ADMINISTRATIVO</b>';
+  [...$('segs').children].forEach((d,i)=>{d.firstChild.style.width=(clamp((t-its[i]-0.3)/0.9)*100)+'%'});
+  // caption
+  let cap=null,cu=0;
+  if(t>=2.35&&t<its[0]){cap='intro';cu=t-2.35}
+  for(let i=0;i<8;i++)if(t>=its[i]+0.5&&t<its[i]+3.95){cap=i;cu=t-its[i]-0.5}
+  if(t>=TL.SWITCH+0.2&&t<its[5]-0.05){cap='sw';cu=t-TL.SWITCH-0.2}
+  const C=$('cap');
+  if(cap===null){C.style.opacity=0}else{
+    let end= cap==='intro'?its[0]-0.05:cap==='sw'?its[5]-0.05:its[cap]+3.95;
+    const outU=clamp((end-t)/0.15);
+    if(cap==='intro'){$('capn').textContent='8';$('capl').textContent='Para decidir si te presentas';$('capq').textContent='Subraya primero estas 8 cosas';}
+    else if(cap==='sw'){$('capn').textContent='2';$('capl').textContent='Segundo documento';$('capq').textContent='Ahora, el pliego técnico';}
+    else setCap(cap);
+    const pu=back(cu/0.32);C.style.opacity=clamp(cu/0.12)*outU;C.style.transform=`translateY(${(1-pu)*60}px) scale(${0.94+0.06*pu})`;
+  }
+  // verdict
+  const V=$('ver');const vIn=clamp((t-TL.VERDICT-0.15)/0.4);const vOut=clamp((t-TL.CTA+0.05)/0.2);
+  V.style.opacity=t<TL.VERDICT?0:vIn;V.style.transform=`translateY(${(1-back(vIn))*120}px) scale(${0.95+0.05*eo(vIn)})`;
+  [...$('rows').children].forEach((r,i)=>{r.className='row'+(t>=TL.VERDICT+0.55+0.17*i?' on':'');r.style.opacity=0.55+0.45*(t>=TL.VERDICT+0.55+0.17*i?1:0)});
+  const st=clamp((t-TL.STAMP)/0.22);$('stamp').style.opacity=st>0?1:0;$('stamp').style.transform=`rotate(-10deg) scale(${lerp(2.4,1,eo(st))})`;
+  const vf=clamp((t-TL.STAMP-0.35)/0.35);$('vfoot').style.opacity=vf;$('vfoot').style.transform=`translateY(${(1-eo(vf))*30}px)`;
+  // flash on stamp
+  $('flash').style.opacity=t>=TL.STAMP&&t<TL.STAMP+0.25?0.35*(1-(t-TL.STAMP)/0.25):0;
+  // wipe + cta
+  const w=t-(TL.CTA-0.35);
+  $('wipe').style.width=w<0?'0':(w<0.35?eio(w/0.35)*1080:1080)+'px';
+  $('wipe').style.left=w<0.35?'0px':(eio((w-0.35)/0.35)*1080)+'px';
+  $('cta').style.display=t>=TL.CTA?'block':'none';
+  const cs=(id,d)=>{const u=clamp((t-TL.CTA-d)/0.4);$(id).style.opacity=u;$(id).style.transform=`translateY(${(1-eo(u))*40}px)`};
+  cs('ck',0.3);cs('ch',0.45);cs('cp',0.9);cs('cs',1.5);cs('cpill',2.0);cs('cweb',2.2);
+  // particles
+  const dd=[...$('dots').children],d2=[...$('dots2').children];
+  P.forEach((p,i)=>{const y=((p.y-p.v*t)%1920+1920)%1920,x=p.x+Math.sin(t*0.8+p.ph)*14,o=p.o*(0.6+0.4*Math.sin(t*2+p.ph));
+    for(const el of [dd[i],d2[i]]){el.style.left=x+'px';el.style.top=y+'px';el.style.width=el.style.height=p.s+'px';el.style.opacity=o}});
+};
+window.ready=Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode())]);
+</script></body></html>
