@@ -2,58 +2,58 @@
 
 Vídeo: `Reel_analizar_licitacion_LicitaTIC.mp4` (1080×1920, 9:16, 54 s, 30 fps, con música). Portada: `Portada_reel_analizar_licitacion.jpg`.
 
-Base visual: la imagen del portátil que facilitó Pilar. Dentro de la pantalla se ven dos PDF (pliego administrativo y pliego técnico) y se subraya en amarillo lo que hay que revisar para decidir GO / NO-GO. Los pliegos son **ficticios** (cada página lleva la marca «EJEMPLO FICTICIO»): entidad, expediente, importes y fechas son inventados y coherentes entre sí.
+Base visual: la imagen del portátil que facilitó Pilar. Dentro de la pantalla aparecen las páginas **reales** de los dos pliegos que facilitó Pilar (REGTSA, expediente 2026/821-PC, suministro de 50 licencias Office 365 E3 EEE sin Teams): el administrativo (PCAP, 17 páginas) y el técnico (PPT, 5 páginas). El subrayado amarillo está colocado sobre el texto exacto de cada pliego. La firma del PPT (nombre y DNI parcial) se ha tapado.
 
-Música: `musica_reel_original.wav`, compuesta por código para este reel (120 BPM, sin muestras ni derechos de terceros). Lleva efectos sincronizados: pasar páginas, rotulador al subrayar, «pop» de cada tarjeta y golpe del sello GO.
+Música: `musica_reel_original.wav`, compuesta por código para este reel (120 BPM, sin muestras ni derechos de terceros), con efectos sincronizados (pasar páginas, rotulador, aparición de tarjetas y sello).
+
+Por petición de Pilar no se usa «GO / NO-GO»: se dice «Presentamos / No presentamos».
 
 ## Guion
 
-| Tiempo | En pantalla | Texto |
+| Tiempo | Pliego y apartado | Tarjeta (pregunta + dato real) |
 |---|---|---|
-| 0–6 s | Gancho. El PDF pasa páginas a toda velocidad (1 → 86) | **NO LEAS EL PLIEGO ENTERO** · *…todavía.* · «Para decidir si te presentas: subraya primero estas 8 cosas» |
-| 6–10 s | Pliego administrativo · subrayado | 1 · Objeto y CPV · ¿Es exactamente lo que hace tu empresa? |
-| 10–14 s | | 2 · Presupuesto y duración · ¿Te salen los números? |
-| 14–18 s | | 3 · Plazo de presentación · ¿Te da tiempo a prepararla bien? |
-| 18–22 s | | 4 · Solvencia · ¿La cumples hoy y puedes acreditarla? |
-| 22–26 s | | 5 · Criterios de adjudicación · ¿Dónde se ganan los puntos? |
+| 0–6 s | PCAP pasando páginas (1 → 17) | **NO LEAS EL PLIEGO ENTERO** · *…todavía.* · Para decidir si te presentas: subraya primero estas 8 cosas · Pliego real: suministro de 50 licencias Office 365 |
+| 6–10 s | PCAP, cl. 2 | 1 · Objeto y CPV · ¿Es exactamente lo que vendes? · 50 licencias Office 365 · canal CSP · CPV 48000000-8 |
+| 10–14 s | PCAP, cl. 6 y 7 | 2 · Presupuesto y duración · ¿Te salen los números? · 22.620 € sin IVA · 24 meses · 226,20 € por licencia y año |
+| 14–18 s | PCAP, cl. 11 | 3 · Criterios de adjudicación · ¿Puedes competir solo en precio? · Precio: 100 % de la puntuación |
+| 18–22 s | PCAP, cl. 12 | 4 · Requisitos para licitar · ¿Cumples lo que piden para presentarte? · Partner CSP de Microsoft + ROLECE · sin solvencia |
+| 22–26 s | PCAP, cl. 13 | 5 · Plazo de presentación · ¿Te da tiempo a prepararla bien? · 10 días hábiles · hasta las 14:00 del último día |
 | 26–28 s | Cambio de pestaña | Ahora, el pliego técnico |
-| 28–32 s | Pliego técnico · subrayado | 6 · Requisitos mínimos · Si no los cumples, quedas fuera. |
-| 32–36 s | | 7 · Equipo mínimo · ¿Tienes a esas personas? |
-| 36–40 s | | 8 · ANS y penalizaciones · ¿Puedes cumplirlos sin perder dinero? |
-| 40–47 s | Checklist que se marca y sello **GO** | ¿Has subrayado las 8? · ¿Encaja todo? GO. · *¿Falla algo clave? NO-GO, y a por la siguiente.* |
-| 47–54 s | Cierre de marca | ¿Te ayudamos? · Analizamos el pliego contigo · Y te damos una recomendación GO / NO-GO antes de preparar la oferta. · *Tú decides a cuáles presentarte.* · Guárdalo para tu próximo pliego · www.licitatic.es |
+| 28–32 s | PPT, ap. 2 | 6 · Requisitos técnicos mínimos · Si no lo cumples, quedas fuera. · Ser partner CSP de Microsoft (si no, exclusión) |
+| 32–36 s | PPT, ap. 4 y 5 | 7 · Plazos de ejecución · ¿Llegas a tiempo sin cortar el servicio? · Licencias activas el 10 de diciembre de 2026 |
+| 36–40 s | PPT, ap. 6 | 8 · Soporte y tiempos · ¿Puedes cumplir estos tiempos? · Acuse en 2 h · actuación en 4 h laborables |
+| 40–47 s | Checklist y sello **PRESENTAMOS** | ¿Nos presentamos? ¿Has subrayado las 8? · ¿Encaja todo? Presentamos. · *¿Falla algo clave? No presentamos, y a por la siguiente.* |
+| 47–54 s | Cierre de marca | ¿Te ayudamos? · Analizamos el pliego contigo · Y te recomendamos si presentarte o no antes de preparar la oferta. · *Tú decides a cuáles presentarte.* · Guárdalo para tu próximo pliego · www.licitatic.es |
 
-Cada pregunta se queda unos 3,4 s en pantalla, con frases de 4 a 7 palabras, para que dé tiempo a leerla.
-
-Datos del ejemplo (coherentes entre sí): presupuesto 180.000 € sin IVA en 24 meses (90.000 €/año); solvencia económica 135.000 € (1,5 veces el valor anual medio) y técnica 63.000 € (70 %), como prevén por defecto los artículos 87 y 90 de la Ley 9/2017. CPV 72267000-4, «Servicios de mantenimiento y reparación de software».
+Cada tarjeta se queda unos 3,4 s en pantalla.
 
 ## Texto para Instagram
 No leas el pliego entero… todavía 👀
-Antes de dedicarle horas a una licitación, subraya estas 8 cosas:
-📄 Pliego administrativo: objeto y CPV, presupuesto y duración, plazo, solvencia y criterios de adjudicación.
-🛠️ Pliego técnico: requisitos mínimos, equipo mínimo y ANS con penalizaciones.
-¿Encaja todo? GO. ¿Falla algo clave? NO-GO, y a por la siguiente.
+Con un pliego real delante, subraya primero estas 8 cosas:
+📄 Pliego administrativo: objeto y CPV, presupuesto y duración, criterios de adjudicación, requisitos para licitar y plazo.
+🛠️ Pliego técnico: requisitos mínimos, plazos de ejecución y tiempos de soporte.
+¿Encaja todo? Presentamos. ¿Falla algo clave? No presentamos, y a por la siguiente.
 Guárdalo para tu próximo pliego 📌 ¿Quieres que lo analicemos contigo? 👉 licitatic.es
 #licitaciones #licitacionespublicas #contratacionpublica #empresasTIC #pymes #pliegos #licitaTIC
 
 ## Texto para TikTok
-No leas el pliego entero… todavía 👀 Subraya estas 8 cosas y decide en minutos si te presentas. Guárdalo 📌
+No leas el pliego entero… todavía 👀 Subraya estas 8 cosas y decide si te presentas o no. Guárdalo 📌
 #licitaciones #contratacionpublica #empresastic #pymes #pliegos
 
 ## LinkedIn
-Leerse un pliego entero para descubrir en la página 60 que no cumples la solvencia es tiempo perdido.
-Antes de nada, subraya estas 8 cosas:
+Leerse un pliego entero para descubrir en la página 15 que no cumples un requisito es tiempo perdido.
+Con un pliego real (suministro de 50 licencias Office 365), esto es lo primero que subrayamos:
 ✅ Objeto y CPV
 ✅ Presupuesto y duración
-✅ Plazo de presentación
-✅ Solvencia económica y técnica
 ✅ Criterios de adjudicación
+✅ Requisitos para licitar (aquí: partner CSP y ROLECE)
+✅ Plazo de presentación
 ✅ Requisitos técnicos mínimos
-✅ Equipo mínimo
-✅ ANS y penalizaciones
-Si todo encaja, GO. Si falla algo clave, NO-GO, y a por la siguiente.
-En LicitaTIC analizamos los pliegos contigo y te damos una recomendación GO / NO-GO. Tú decides a cuáles presentarte. 👉 licitatic.es
+✅ Plazos de ejecución
+✅ Soporte y tiempos de respuesta
+Si todo encaja, nos presentamos. Si falla algo clave, no nos presentamos, y a por la siguiente.
+En LicitaTIC analizamos los pliegos contigo y te recomendamos si presentarte o no. Tú decides a cuáles presentarte. 👉 licitatic.es
 #LicitacionesPúblicas #ContrataciónPública #SectorTIC #Pymes
 
 ## Cómo regenerarlo
-En esta carpeta: `npm i @fontsource/montserrat @fontsource/instrument-serif`, `python3 music.py` y `node build.js` (necesita Playwright y ffmpeg).
+En `_motor/`: `npm i @fontsource/montserrat @fontsource/instrument-serif`, `python3 music.py` y `node build.js` (necesita Playwright y ffmpeg). Las páginas de los pliegos están en `_motor/pdf/` y `pdf/find.py` calcula dónde va cada subrayado.
