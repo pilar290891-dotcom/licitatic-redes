@@ -112,22 +112,33 @@ def publicar_facebook(pub) -> str:
             datos[f"attached_media[{i}]"] = f'{{"media_fbid":"{f}"}}'
         return _pedir("POST", f"{GRAPH}/{page}/feed", data=datos)["id"]
     if pub.tipo == "video":
-        inicio = _pedir("POST", f"{GRAPH}/{page}/video_reels", data={"upload_phase": "start"})
-        vid = inicio["video_id"]
-        datos = pub.medios[0].read_bytes()
-        r = requests.post(inicio["upload_url"], data=datos, timeout=600, headers={
-            "Authorization": f"OAuth {_token()}", "offset": "0", "file_size": str(len(datos))})
-        if r.status_code >= 400:
-            raise ErrorPublicacion(f"Subida de reel a Facebook falló: {r.text}")
-        _pedir("POST", f"{GRAPH}/{page}/video_reels", data={
-            "upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED",
-            "description": pub.texto})
-        return vid
+        try:
+            return _reel_facebook(page, pub)
+        except ErrorPublicacion as e:
+            if "permission to post videos" not in str(e):
+                raise
+            # Plan B: vídeo normal de la página, descargado por Meta desde la URL pública.
+            return _pedir("POST", f"{GRAPH}/{page}/videos", data={
+                "file_url": url_publica(pub.medios[0]), "description": pub.texto})["id"]
     if pub.tipo == "story":
         foto = _pedir("POST", f"{GRAPH}/{page}/photos",
                       data={"url": url_publica(pub.medios[0]), "published": "false"})["id"]
         return _pedir("POST", f"{GRAPH}/{page}/photo_stories", data={"photo_id": foto})["post_id"]
     raise ErrorPublicacion(f"Tipo no soportado en Facebook: {pub.tipo}")
+
+
+def _reel_facebook(page, pub) -> str:
+    inicio = _pedir("POST", f"{GRAPH}/{page}/video_reels", data={"upload_phase": "start"})
+    vid = inicio["video_id"]
+    datos = pub.medios[0].read_bytes()
+    r = requests.post(inicio["upload_url"], data=datos, timeout=600, headers={
+        "Authorization": f"OAuth {_token()}", "offset": "0", "file_size": str(len(datos))})
+    if r.status_code >= 400:
+        raise ErrorPublicacion(f"Subida de reel a Facebook falló: {r.text}")
+    _pedir("POST", f"{GRAPH}/{page}/video_reels", data={
+        "upload_phase": "finish", "video_id": vid, "video_state": "PUBLISHED",
+        "description": pub.texto})
+    return vid
 
 
 # ------------------------------------------------------------------ métricas
