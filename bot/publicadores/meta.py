@@ -84,7 +84,10 @@ def publicar_instagram(pub) -> str:
         campos = {"media_type": "REELS", "caption": pub.texto, "share_to_feed": "true"}
         if pub.portada:
             campos["cover_url"] = url_publica(pub.portada)
-        cid = _subir_video_ig(ig, pub.medios[0], **campos)
+        # Meta descarga el vídeo desde la URL pública del repositorio (la subida directa
+        # «resumable» daba ProcessingFailedError).
+        cid = _pedir("POST", f"{GRAPH}/{ig}/media",
+                     data={"video_url": url_publica(pub.medios[0]), **campos})["id"]
     elif pub.tipo == "story":
         cid = _pedir("POST", f"{GRAPH}/{ig}/media",
                      data={"media_type": "STORIES", "image_url": url_publica(pub.medios[0])})["id"]
