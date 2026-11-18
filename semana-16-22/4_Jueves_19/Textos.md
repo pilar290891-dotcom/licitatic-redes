@@ -2,10 +2,34 @@
 
 ## Horario
 - 11:00 · Storie «¿Sabías que…? 9 · Duración máxima de 5 años» · IG y FB (solo imagen)
+- 12:00 · Reel «Si no haces esto, estás perdiendo dinero» (voz de Cristina) · IG, TikTok, FB, LinkedIn
 - 13:30 · Imagen trend «Sin checklist vs con checklist» · IG, TikTok, FB, LinkedIn
 - 16:30 · Carrusel «¿Me presento o no?» (7) · IG, TikTok, FB, LinkedIn
 - 18:00 · Storie de pregunta · IG y FB
 - 20:00 · Reel «Licitar con cabeza · 13» · IG, TikTok, FB, LinkedIn
+
+## 12:00 · Reel perdiendo dinero
+**IG / FB / TikTok (título: Si no haces esto, estás perdiendo dinero)**
+Si no haces esto, estás perdiendo dinero 👇
+
+Cada día la Administración publica licitaciones de tecnología: software, ciberseguridad, redes, cloud…
+Si nadie en tu empresa las revisa, se cierra el plazo y el contrato se lo lleva otra empresa.
+
+✅ Revisa cada día las licitaciones TIC que encajan contigo.
+✅ O mejor: que te lleguen solas, cada mañana, a tu correo.
+
+Prueba los avisos de LicitaTIC 7 días gratis, sin tarjeta 👉 enlace en la bio
+
+Y tú, ¿cuántas licitaciones crees que se te han escapado este mes? Te leemos en comentarios 💬
+
+#licitaciones #licitacionespublicas #contratacionpublica #empresasTIC #pymes #tecnologia #licitaTIC
+**LinkedIn**
+Si no haces esto, estás perdiendo dinero: revisar cada día las licitaciones TIC que publica la Administración. Si nadie en tu empresa las revisa, se cierra el plazo y el contrato se lo lleva otra empresa.
+
+Con LicitaTIC te llegan cada mañana a tu correo, filtradas por categoría, CPV, provincia e importe. Pruébalo 7 días gratis, sin tarjeta: licitatic.es
+
+¿Cuántas licitaciones crees que se te han escapado este mes?
+#ContrataciónPública #LicitacionesPúblicas #SectorTIC #Pymes
 
 ## 13:30 · Trend
 **IG / FB / TikTok**

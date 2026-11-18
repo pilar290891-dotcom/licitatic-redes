@@ -14,7 +14,7 @@ por día llamada `N_Dia_DD` (por ejemplo `2_Miercoles_11`). Dentro de cada día:
   HHMM y un guion bajo (`1630_carrusel_1.jpg`, `1330_en_serio.jpg`). Varias imágenes con la misma hora
   forman un carrusel, en orden por el número final.
 - `4_Stories/`: stories de Instagram y Facebook con el mismo prefijo de hora (`1800_storie.jpg`).
-- `5_Reel/`: el vídeo vertical `HHMM_reel.mp4` y su portada `portada_reel.jpg`.
+- `5_Reel/`: el vídeo vertical `HHMM_reel.mp4` y su portada `portada_reel.jpg`. Si un día lleva dos reels, la portada de cada uno se llama `portada_HHMM.jpg` con su hora.
 - `Textos.md` con:
   - Primera línea: `# <Día> DD/MM · Textos`.
   - Una sección por publicación que empiece por `## HH:MM · <nombre>`, con la misma hora que los archivos.

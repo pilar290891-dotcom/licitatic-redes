@@ -8,7 +8,7 @@ Estructura esperada de cada día (la que ya usa el agente):
         2_TikTok/HHMM_*.jpg
         3_LinkedIn/HHMM_*.jpg
         4_Stories/HHMM_*.jpg
-        5_Reel/HHMM_reel.mp4 (+ portada_reel.jpg)
+        5_Reel/HHMM_reel.mp4 (+ portada_reel.jpg, o portada_HHMM.jpg si hay más de un reel)
 """
 from __future__ import annotations
 
@@ -170,12 +170,15 @@ def leer_dia(carpeta: Path) -> list[Publicacion]:
             nueva(hhmm, red, "story", medios[:1])
 
     # Reel: a todas las redes
+    # Portada: portada_HHMM.jpg para el reel de esa hora; si no hay, la portada general (portada_reel.jpg)
     reel_dir = carpeta / "5_Reel"
-    portada = next((f for f in reel_dir.glob("portada*") if f.suffix.lower() in EXT_IMAGEN), None) \
-        if reel_dir.is_dir() else None
+    portadas = sorted(f for f in reel_dir.glob("portada*") if f.suffix.lower() in EXT_IMAGEN) \
+        if reel_dir.is_dir() else []
+    general = next((f for f in portadas if not re.match(r"^portada_\d{4}$", f.stem)), None)
     for hhmm, medios in _agrupar_por_hora(reel_dir).items():
         videos = [m for m in medios if m.suffix.lower() in EXT_VIDEO]
         if videos:
+            portada = next((f for f in portadas if f.stem == f"portada_{hhmm}"), general)
             for red in ("instagram", "facebook", "tiktok", "linkedin"):
                 nueva(hhmm, red, "video", videos[:1], portada)
 
